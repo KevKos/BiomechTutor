@@ -12,6 +12,9 @@ const Admin = require('../models/admin');
 // Local Modules
 const email = require('../modules/email');
 
+auth.use(function(){
+    console.log('kevin sucks');
+})
 
 auth.post('/admin/create', [
     check('username').isAlphanumeric(),

@@ -112,7 +112,7 @@ export default {
               }
          },
     },
-      methods: {
+    methods: {
         createAdmin: function(){
             this.$axios.post('auth/admin/create', {
                 name: this.name,

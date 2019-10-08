@@ -13,7 +13,6 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 //  database connection
-// const mongoUri = process.env.MONGO_ATLAS; //production
 const mongoUri = 'mongodb://localhost/biomechanics';  //development
 
 
@@ -31,17 +30,17 @@ var db = mongoose.connection;
  });
 
  //use sessions
- app.use(session({
-   secret: process.env.SESSION_SECRET,
-   secure: true, //cookies only available over https
-   cookie: {httpOnly: true, secure: true},
-   resave: true,
-   cookie: {maxAge:60 * 60 * 1000},//expires: true, maxAge: expiryDate}, //set rolling logout to 15mins
-   saveUninitialized: true,
-   store: new MongoStore({
-     mongooseConnection: db
-   })
- }));
+//  app.use(session({
+//    secret: process.env.SESSION_SECRET,
+//    secure: true, //cookies only available over https
+//    cookie: {httpOnly: true, secure: true},
+//    resave: true,
+//    cookie: {maxAge:60 * 60 * 1000},//expires: true, maxAge: expiryDate}, //set rolling logout to 15mins
+//    saveUninitialized: true,
+//    store: new MongoStore({
+//      mongooseConnection: db
+//    })
+//  }));
 
 
 //models

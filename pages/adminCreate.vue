@@ -115,7 +115,7 @@ export default {
     methods: {
         createAdmin: function(){
             this.$axios.post('auth/admin/create', {
-                name: this.name,
+                username: this.username,
                 email: this.email.toLowerCase(),
                 password: this.password,
             })
@@ -136,10 +136,7 @@ export default {
                     this.email = '';
                     this.password = '';
                     // alert('Please check your email to confirm your account!');
-                    this.alertDialog = true;
-                    this.alertText = 'Please check your email to confirm your account.';
-                    this.alertTitle = 'Success!'
-                    setTimeout(this.$router.push('/login'), 2500); //delay redirect for 2.5 second to give user time to read
+                    setTimeout(this.$router.push('/'), 2500); //delay redirect for 2.5 second to give user time to read
                 }              
             }).catch((e)  =>  {
                 console.log(e);

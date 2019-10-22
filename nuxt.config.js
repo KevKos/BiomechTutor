@@ -42,11 +42,10 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '~plugins/vue-quill-editor', ssr: false },
-    { src: '~plugins/vue-katex' },
+    { src: '~plugins/vuex-persist.js', ssr: false },
+    { src: '~plugins/nuxt-quill-plugin.js', ssr: false },
     { src: '~/plugins/vuelidate'  },
     { src: '~/plugins/axios'  },
-
   ],
   /*
   ** Nuxt.js dev-modules

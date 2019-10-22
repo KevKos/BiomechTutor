@@ -45,7 +45,12 @@ var db = mongoose.connection;
 
 //models
 const auth = require('./routes/auth');
+const admin = require('./routes/admin');
+const classes = require('./routes/classes');
 app.use('/auth', auth);
+app.use('/admin', admin);
+app.use('/classes', classes);
+
 
 app.use((err,req,res,next)  =>  {
   console.log('At error handler');
@@ -58,6 +63,7 @@ app.use((err,req,res,next)  =>  {
   }
 
 })
+
 
 module.exports = {
     path: "/api/",

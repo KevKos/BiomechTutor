@@ -3,7 +3,7 @@
         <v-layout >
             <v-spacer></v-spacer>
                 <v-card
-                style="width: 300px; margin-top: 200px;"
+                style="width: 300px; margin-top: 5%;"
                 flat
                 >
                 <v-card-title
@@ -14,15 +14,30 @@
                 <v-card-text
                 >
                     <v-text-field
+                    name="email"
+                    v-model="email"
+                    :error-messages="emailError"
+                    @input="$v.email.$touch()"
+                    @blur="$v.email.$touch()"
+                    label="E-mail"
                     outlined
                     color="blue darken-4"
-                    placeholder="Username"
+                    required
                     >
                     </v-text-field>
                     <v-text-field
-                    outlined
+                    name="password"
+                    :type="showPass1 ? 'text' : 'password'"
+                    :append-icon="showPass1 ? 'visibility' : 'visibility_off'"
+                    @click:append="showPass1 = !showPass1"
+                    v-model="password"
+                    :error-messages="passwordError"
+                    @input="$v.password.$touch()"
+                    @blur="$v.password.$touch()"
                     color="blue darken-4"
-                    placeholder="Password"
+                    label="Password"
+                    outlined
+                    required
                     >
                     </v-text-field>
                     <v-btn
@@ -31,6 +46,7 @@
                     outlined
                     color="blue darken-4"
                     height="55px"
+                    v-on:click='login'
                     >
                         Login
                     </v-btn>
@@ -40,8 +56,95 @@
     </v-layout>
   </v-container>
 </template>
+
+
 <script>
+import { required, minLength, maxLength, email, url } from 'vuelidate/lib/validators';
+import { validationMixin } from 'vuelidate';
+
 export default {
-    
+    data () {
+        return {
+            email: '',
+            password: '',
+            showPass1: false,
+        }
+    },
+    computed: {
+        emailError(){
+            const errors = [];
+            if(!this.$v.email.$error){
+                return errors;
+            }else{
+                errors.push('Please enter a valid email address.')
+                return errors;
+            }
+        },
+        passwordError(){
+            const errors = [];
+            if(!this.$v.password.$error){
+                return errors;
+            }else{
+                errors.push('Please enter a valid password between 6 and 20 characters.')
+                return errors;
+            }
+        },
+     admin(){
+        return this.$store.getters['auth/getAdmin'];
+      },
+    },
+    mixins: [validationMixin],
+    validations: {
+        email:{
+            required,
+            email
+        },
+        password:{
+            required,
+            minLength: minLength(6),
+            maxLength: maxLength(20),
+        }
+    },
+    fetch({store, redirect})    {
+    },
+     methods: {
+        login: async function(event) {
+            this.$v.email.$touch();
+            this.$v.password.$touch()
+               if(this.$v.password.$invalid || this.$v.email.$invalid){
+                    alert('Form errors');
+               }else{
+                    this.$store.dispatch('auth/login', {email: this.email, password: this.password}).then((res)    =>  {
+                        console.log(res);
+                        this.$router.push('/admin/dashboard'); //push to browse on successful login
+                    }).catch((err)   =>  {
+                        //the error object is appending Mongoose Error to it so this seems to be the easiest fix for now
+                        let error = String(err);
+                        // console.log(error);
+
+                        // c2492992@urhen.com
+                        if(error.includes('confirmation')){
+                            this.alertDialog = true;
+                            this.alertTitle = 'So Close!'
+                            this.alertText = 'Please confirm your account to sign in. If you would like another email, you can click on the "confirm email" button to re-send the email.'
+                        }else if (error.includes('password')){
+                            this.alertDialog = true;
+                            this.alertTitle = 'Wrong Password!'
+                            this.alertText = 'Please try again, or reset your password to avoid future errors.'
+                        }else if (error.includes('account')){
+                            this.alertDialog = true;
+                            this.alertTitle = 'Wrong Email/Password!'
+                            this.alertText = 'Please try again, or reset your password to avoid future errors.'
+                        }else{
+                            alert('An unexpected error has occured');
+                            this.alertDialog = true;
+                            this.alertTitle = 'Error';
+                            this.alertText = 'An unexpected error has occured, please try again shortly'
+                        }
+                        
+                    })     
+               }
+        },
+    },
 }
 </script>

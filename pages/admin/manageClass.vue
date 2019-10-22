@@ -17,6 +17,10 @@
                 <v-flex class="my-2" xs12>
                     <span class="title"> Your Classes </span>
                 </v-flex>
+
+                <v-flex v-for="classes in admin.classes" :key="classes.title">
+                    <span>{{classes.title}}</span>
+                </v-flex>
                 <!-- Class card -->
                 <v-flex
                 xs12
@@ -101,7 +105,21 @@ export default {
         CreateClass: CreateClass,
         CreateUnit: CreateUnit,
         CreateQuestion: CreateQuestion,
-    }
-    
+    },
+    computed: {
+        admin(){
+            return this.$store.getters['auth/getAdmin'];
+        },
+        adminClasses() {
+            return this.$store.getters['classes/adminClasses']
+        }
+    },
+    methods: {
+        // fetchAdmin() {
+        //    return this.$store.getters['auth/getAdminUsername'];
+        // }
+    },
+    mounted() {
+  }
 }
 </script>

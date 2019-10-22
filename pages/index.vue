@@ -13,6 +13,9 @@
       >
         Practice Questions
       </span>
+      <v-card>
+        {{admin}}
+      </v-card>
 
       <v-card
       v-for="unit in units"
@@ -61,5 +64,10 @@ export default {
       ]
     }
   },
+    computed: {
+     admin(){
+        return this.$store.getters['auth/getAdmin'];
+      },
+    },
 }
 </script>

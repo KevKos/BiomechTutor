@@ -202,6 +202,11 @@ export default {
             ]
         }
     },
+    computed: {
+     admin(){
+        return this.$store.getters['auth/getAdmin'];
+      },
+    },
     
 }
 </script>

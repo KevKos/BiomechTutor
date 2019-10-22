@@ -52,12 +52,12 @@ var AdminSchema = new mongoose.Schema ({
     ]
 })
 
-//authenticate login against database
-AdminSchema.statics.authenticate = function (username, password, callback) { //pass in username, password and callback fucntion
-    Admin.findOne({ username: username })  //find an that has matching username to one entered in login form
+// authenticate login against database
+AdminSchema.statics.authenticate = function (email, password, callback) { //pass in email, password and callback fucntion
+    Admin.findOne({ email: email })  //find an that has matching email to one entered in login form
       .exec(function (err, admin) {
         if (err || !admin) {
-          callback(err)  //if error (no admin username that matches), return
+          callback(err)  //if error (no admin email that matches), return
         }else{
           //use bcrypt to compare entered password to the database password
           bcrypt.compare(password, admin.password, function (err, result) {

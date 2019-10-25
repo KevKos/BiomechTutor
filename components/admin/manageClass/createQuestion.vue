@@ -1,5 +1,7 @@
 <template>
-    <v-dialog fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-dialog
+    max-width="1000px"
+    >
       <!-- button -->
       <template v-slot:activator="{ on }">
          <v-btn
@@ -12,18 +14,19 @@
         >
             <v-icon left> add </v-icon>
             Create a Question
+            {{unitId}}
         </v-btn>
       </template>
       <!-- full screen dialog card -->
       <v-card>
         <!-- full screen toolbar  -->
-        <v-toolbar dark color="primary">
+        <!-- <v-toolbar dark color="primary">
           <v-btn icon dark>
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>Create A Question</v-toolbar-title>
           <div class="flex-grow-1"></div>
-        </v-toolbar>
+        </v-toolbar> -->
 
         <!-- create question content page -->
         <v-container>
@@ -271,6 +274,9 @@ export default {
         console.log('editor change!', editor, html, text)
         this.content = html
       }
+    },
+    props: {
+      unitId: String,
     }
   }
 </script>

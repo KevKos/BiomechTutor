@@ -44,7 +44,7 @@ auth.post('/login', function(req,res,next) {
           sendAuthToken(admin, 'admin', req, res);
         }
     });
-})
+});
 
 // logout
 auth.get('/logout', function(req,res){
@@ -55,6 +55,7 @@ auth.get('/logout', function(req,res){
 
 function sendAuthToken(account, type, req, res){
     var user_secure = null;
+    console.log(account)
     jwt.sign(
       {_id: account._id,
        account: type},

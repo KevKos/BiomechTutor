@@ -60,7 +60,6 @@ export default {
     data () {
         return {
             createClass: false,
-
             // class data
             className: '',
         }
@@ -74,16 +73,14 @@ export default {
         createClassFunction () {
             this.$axios.post('/admin/create/class', {
                 class: this.className,
-                username: this.admin.username,
+                admin: this.admin._id,
             })
-            console.log('success');
             this.refreshUser(); //update classes
+            // this.$router.push('/admin/manageClass');
             this.createClass = false
         },
            refreshUser(){
             this.$store.dispatch('auth/login', {email: this.admin.email, password: 'kevin1'}).then((res)    =>  {
-                console.log(res);
-                this.$router.push('/admin/manageClass');
             })
         },
     }

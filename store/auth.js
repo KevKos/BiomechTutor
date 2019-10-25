@@ -4,6 +4,8 @@ import { Error } from "mongoose";
     accessToken: '',
     username: '',
     admin: {},
+    classes: [],
+    hello: 'this is the thing'
   })
 
   export const mutations = {
@@ -11,11 +13,14 @@ import { Error } from "mongoose";
       state.accessToken = admin.token;
       state.admin = admin;
     },
-    SET_TOKEN: function (state, token){
-      state.accessToken = token;
+    SET_ADMINID: function (state, admin){
+      state.adminId = admin;
     },
     SET_USERNAME: function (state, username){
       state.username = username;
+    },
+    SET_CLASSES: function (state, classes){
+      state.classes = classes;
     },
     RESET_STATE: (state)  =>  {
       Object.assign(state, getDefaultState());
@@ -51,7 +56,7 @@ import { Error } from "mongoose";
           if(res.data.error){
             throw new Error(res.data.msg);
           }else{
-            console.log(res.data)
+            // console.log(res.data)
             return res.data
           }
       })
@@ -66,27 +71,11 @@ import { Error } from "mongoose";
         .then(() => {
           localStorage.clear();
           commit('RESET_STATE'); 
-          console.log('success here 1')        
         })
       },
 
-    //UNIVERSAL REFRESH USER
-    async login ({ commit }, { username}) {
-      //need to return promise for async
-      return this.$axios.post('auth/login',{
-        username: username,
-      })
-      .then((res) => {
-          if(res.data.error){
-            throw new Error(res.data.msg);
-          }else{
-            console.log(res.data)
-            return res.data
-          }
-      })
-      .then((authUser) => {
-        commit('SET_ADMIN', authUser);
-        return authUser.confirmed;
-      });
-    },
-  }
+// -----------------------------------------------------------
+
+
+
+}

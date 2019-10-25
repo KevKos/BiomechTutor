@@ -14,42 +14,6 @@ var AdminSchema = new mongoose.Schema ({
         type: String,
         required: true
     },
-    classes: [
-        {
-            title: String,
-            description : {type: String},
-            units: [
-                {
-                    title: String,
-                    description: {type: String},
-                    questions: [
-                        {
-                            text: String,
-                            // change picture to cdn
-                            picture: {type: String},
-                            answer: {type: String},
-                            units: {type: String},
-                            hint: {type: String},
-                            // limit leading questions to 4
-                            leadingQuestions: [
-                                {
-                                    question: String,
-                                    option: [
-                                        {
-                                            answer: String,
-                                            correct: Boolean,
-                                            // change picture to cdn
-                                            picture: String,
-                                        }
-                                    ]
-                                }
-                            ],
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
 })
 
 // authenticate login against database
@@ -59,7 +23,7 @@ AdminSchema.statics.authenticate = function (email, password, callback) { //pass
         if (err || !admin) {
           callback(err)  //if error (no admin email that matches), return
         }else{
-          //use bcrypt to compare entered password to the database password
+        //   use bcrypt to compare entered password to the database password
           bcrypt.compare(password, admin.password, function (err, result) {
             if (result === true) {
               callback(null, admin);

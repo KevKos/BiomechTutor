@@ -15,6 +15,7 @@
             left
             >add</v-icon>
                 Create Unit
+                {{classId}}
             </v-btn>
         </template>
 
@@ -28,6 +29,7 @@
 
             <v-card-text class="pt-3 pb-0">
                 <v-text-field
+                v-model="unitName"
                 outlined
                 label="Unit Title"
                 placeholder="Fraction Addition and Subtraction"
@@ -42,7 +44,7 @@
                 dark
                 large
                 style="text-transform: none; letter-spacing: 0px;"
-                @click="dialog = false"
+                v-on:click="createUnitFunction"
             >
                 Create
             </v-btn>
@@ -58,7 +60,33 @@ export default {
     data () {
         return {
             createUnit: false,
+            // unit data
+            unitName: '',
         }
+    },
+      computed: {
+        admin(){
+            return this.$store.getters['auth/getAdmin'];
+        },
+    },
+      methods: {
+        createUnitFunction () {
+            this.$axios.post('/admin/create/unit', {
+                unit: this.unitName,
+                username: this.admin.username,
+                classId: this.classId
+            })
+            this.refreshUser(); //update classes
+            // this.$router.push('/admin/manageClass');
+            this.createUnit = false
+        },
+           refreshUser(){
+            this.$store.dispatch('auth/login', {email: this.admin.email, password: 'kevin1'}).then((res)    =>  {
+            })
+        },
+    },
+    props: {
+        classId: String,
     }
 }
 </script>

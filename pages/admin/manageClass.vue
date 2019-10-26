@@ -5,104 +5,78 @@
 
         <!-- page content -->
         <v-container>
-            <span>{{admin._id}}</span>
             <v-layout class="px-2" row wrap>
+               
                <!-- create class -->
                <v-flex class="mb-2" xs12>
-
-                <!-- create class dialog -->
-                <CreateClass></CreateClass>
-                    
-                </v-flex>
-                <!-- Your Classes Text -->
-                <v-flex class="my-2" xs12>
-                    <span class="title"> Your Classes </span>
-                </v-flex>
-
-                <!-- Class card -->
-                <v-flex
-                xs12
-                >
-                    <v-card
-                    class="my-5"
-                    v-for="classes in adminClasses" :key="classes.id"
-                    width="100%"
-                    outlined
-                    >
-                    <v-card-title
-                    class="title"
-                    style="text-transform: capitalize"
-                    >
-                        {{classes.title}}
-                    </v-card-title>
-                    <!-- create unit container -->
-                    <v-card-text>
-                        <Units
-                        :classTitle="classes.title"
-                        :classId="classes._id"
-                        ></Units>
-                        <!-- <v-btn
-                        v-on:click="showUnits(classes._id)"
+                    <!-- CREATE CLASS -->
+                    <div class="mb-5">
+                
+                        <v-card-text>
+                            <!-- create class dialog -->
+                            <!-- need to change this component to use props, not to get the adminId twice -->
+                            <CreateClass
+                            :adminId="admin._id"
+                            ></CreateClass>
+                        </v-card-text>
+                    </div>
+                    <!-- CLASS GROUP -->
+                    <div v-for="classes in classes" :key="classes._id">
+                        <v-card
+                        outlined
+                        class="my-5"
                         >
-                            show units
-                        </v-btn>
-                        <v-card-text
-                        v-if="unitDisplay"
-                        >
-                            <div
-                            v-for="units in units"
-                            :key="units._id"
-                            >  
-                                {{units.title}}
-                            </div>
-                        </v-card-text> -->
-                    </v-card-text>
-                    <v-card-text>
-                        <CreateUnit
-                            :classId="classes._id"
-                        ></CreateUnit>
-                    </v-card-text>
-                    <v-divider></v-divider>
-                    <v-card-text>
-                        <!-- <v-layout class="px-4 py-1" row wrap>
-                            <v-flex xs12>
-                                <v-layout class="px-2" row align-center>           
-                                    <span
-                                    class="title black--text mr-1"
-                                    >
-                                        Trigonometry
-                                    </span>
-                                      <v-btn
-                                    icon 
-                                    >
-                                        <v-icon small> more_vert
-                                        </v-icon>
-                                    </v-btn>
-                                </v-layout>
-                                
-                            </v-flex>
-                            <v-flex class="my-1" xs12>
-                                Click on a number below to update or remove that question.
-                            </v-flex>
-                            <v-flex class="my-1">
-                                Questions: 
-                                <v-btn
-                                icon
-                                color="blue darken-4"
-                                small
+                            <v-card-title
+                            style="text-transform: capitalize"
+                            class="title text--black"
+                            >
+                                {{classes.title}}
+                            </v-card-title>
+                            <!-- create unit button -->
+                            <v-card-text>
+                                <CreateUnit
+                                    :classId="classes._id"
+                                    :adminId="admin._id"
+                                ></CreateUnit>
+                            </v-card-text>
+                                <!-- list of units -->
+                                <div
+                                v-for="units in units"
+                                :key="units._id"
                                 >
-                                    1
-                                </v-btn>
-                            </v-flex>
-                            <v-flex class="my-1" xs12>
-                                <CreateQuestion></CreateQuestion>
-                            </v-flex>
-                        </v-layout> -->
-                        
-                    </v-card-text>
+                                    <div
+                                    v-if="units.classAssignment == classes._id"
+                                    >
+                                        <v-layout class="px-5 pb-2" row wrap>
+                                            <v-flex class="px-3" xs12>
+                                                <v-card
+                                                flat
+                                                class="px-2 py-1"
+                                                >  
+                                                    <v-layout row wrap>
+                                                        <v-flex xs12>
+                                                            <span 
+                                                            style="text-transform: capitalize"
+                                                            class="title">{{units.title}}
+                                                            </span>
+                                                        </v-flex>
+                                                        <v-flex xs12>
+                                                            <CreateQuestion
+                                                            :unitId="units._id"
+                                                            ></CreateQuestion>
+                                                        </v-flex>
 
-                    </v-card>
-                </v-flex>
+                                                    </v-layout>
+                                                </v-card>
+                                            </v-flex>
+                                        </v-layout>
+                                       
+                                    </div>
+                                </div>
+                           
+                        </v-card>
+                    </div>
+                </v-flex>               
             </v-layout>
         </v-container>
 
@@ -123,9 +97,8 @@ export default {
     data () {
         return {
             classes: [],
-            // // units
-            // unitDisplay: false,
-            // units: []
+            units: [],
+            title: 'this',
         }
     },
     components: {
@@ -144,35 +117,29 @@ export default {
         },
     },
     methods: {
-        setClasses() {
-            this.$store.dispatch('auth/setClasses', {adminObject: this.admin});
+        getClasses () {
+            this.$axios.get('admin/getClasses', {params: {
+                adminId: this.admin._id
+            }}).then((res) =>  {
+                // console.log(res.data)
+                // console.log(res.data.units)
+                this.classes = res.data.classes;
+                this.units = res.data.units;
+            })
+        },
+        containsClassId(classId) {
+            console.log()
+            var classUnits = this.units.filter(unit => unit.classAssignment = classId)
+            console.log(classUnits + 'hello')
         }
-
-        // getClasses(){
-        //       this.$axios.get('admin/getClasses', {
-        //             params: {
-        //                 adminId: this.admin._id
-        //             }
-        //         }
-        //     ).then((res) =>   {
-        //         this.$store.commit('SET_CLASSES', res.data)
-        //         // console.log(res.data);
-        //         // this.classes = res.data.newClasses;
-        //     })
-        // },
     },
-    // watch: {
-    //     admin(){
-    //         this.getClasses()
-    //     },
-    // },
-    created() {
-        this.$axios.get('admin/getClasses', {params: {
-            adminId: this.admin._id
-        }}).then((res)    =>  {
-            // console.log(res.data)
-            this.classes = res.data;
-        })
+    mounted() {
+        this.getClasses()
     },
+    watch: {
+        admin(){
+             this.getClasses()
+        }
+    }
 }
 </script>

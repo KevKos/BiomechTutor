@@ -1,6 +1,6 @@
 <template>
     <v-dialog
-    max-width="1000px"
+    fullscreen hide-overlay transition="dialog-bottom-transition"
     >
       <!-- button -->
       <template v-slot:activator="{ on }">
@@ -19,14 +19,14 @@
       </template>
       <!-- full screen dialog card -->
       <v-card>
-        <!-- full screen toolbar  -->
-        <!-- <v-toolbar dark color="primary">
+        <!-- full screen toolbar   -->
+      <v-toolbar dark color="primary">
           <v-btn icon dark>
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>Create A Question</v-toolbar-title>
           <div class="flex-grow-1"></div>
-        </v-toolbar> -->
+        </v-toolbar>
 
         <!-- create question content page -->
         <v-container>

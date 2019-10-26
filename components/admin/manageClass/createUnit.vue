@@ -15,7 +15,6 @@
             left
             >add</v-icon>
                 Create Unit
-                {{classId}}
             </v-btn>
         </template>
 
@@ -74,7 +73,8 @@ export default {
             this.$axios.post('/admin/create/unit', {
                 unit: this.unitName,
                 username: this.admin.username,
-                classId: this.classId
+                classId: this.classId,
+                adminId: this.adminId
             })
             this.refreshUser(); //update classes
             // this.$router.push('/admin/manageClass');
@@ -87,6 +87,7 @@ export default {
     },
     props: {
         classId: String,
+        adminId: String,
     }
 }
 </script>

@@ -7,6 +7,16 @@ var QuestionSchema = new mongoose.Schema({
     ref: 'Unit',
     required: true
   },
+  classAssignment: {
+    type: ObjectId,
+    ref: 'Class',
+    required: true
+  },
+  adminCreator: {
+    type: ObjectId,
+    ref: 'Admin',
+    required: true
+  },
   text: {
       type: String,
       required: true,

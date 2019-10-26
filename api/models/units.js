@@ -7,6 +7,11 @@ var UnitSchema = new mongoose.Schema({
     ref: 'Class',
     required: true
   },
+  adminCreator: {
+    type: ObjectId,
+    ref: 'Admin',
+    required: true
+  },
   title: {
       type: String,
       required: true,

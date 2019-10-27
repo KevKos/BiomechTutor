@@ -40,62 +40,34 @@ admin.post('/create/unit', (req, res)  => {
 });
 
 /*
+  CREATE QUESTION
+*/
+admin.post('/create/question', (req, res)  => {
+  var questionData = {
+    unitAssignment: req.body.unit,
+    classAssignment: req.body.class,
+    adminCreator: req.body.admin,
+    text: req.body.question
+  }
+  Question.create(questionData, function(err, question){
+      res.send(true); //pass true to front end to redirect
+  });
+});
+
+/*
     GET CLASSES FOR ADMIN
 */
-
 admin.get('/getClasses', (req,res)  =>  {
   Class.find({adminCreator: req.query.adminId}, function(err, classes){
       Unit.find({adminCreator: req.query.adminId}, function(err, units){
-        var data = {
-          classes: classes,
-          units: units
-        }
-        // console.log(units);
-        // console.log(classes)
-        res.send({classes: classes, units: units})
+        Question.find({adminCreator: req.query.adminId}, function(err, questions){
+          res.send({classes: classes, units: units, questions: questions})
+        })
       })
   })
  
 })
 
-
-
-
-// admin.get('/getClasses', (req,res) =>  {
-//   Class.find({adminCreator: req.query.adminId}).lean().exec(function(err, classes) {
-//     if(err || !classes){
-//       console.log(err);
-//       res.json({error:true});
-//     }else{
-//       classes.forEach(element => {
-//         Unit.find({classAssignment: element._id}).lean().exec(function(err, units) {
-//           if(err || !units){
-//             console.log(err);
-//             res.json({error:true});
-//           }else{
-//               units.forEach (element => {
-//                 Question.find({unitAssignment: element._id}).lean().exec(function(err, questions) {
-//                   if(err || !questions){
-//                     console.log(err);
-//                     res.json({error:true});
-//                   }else{
-//                       // adds each unit to the class
-//                       element.units = units;
-//                       var newClasses = element;
-//                       console.log(newClasses) 
-//                       res.json(newClasses)   
-//                   }
-//                 });
-//                 element.questions = []
-//                 element.questions.push = 'test'
-//               })
-          
-//           }
-//         });
-//       });
-//     }
-//   });
-// })
 
 /*
     GET UNITS FOR CLASS

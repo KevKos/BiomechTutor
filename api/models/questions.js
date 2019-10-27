@@ -23,17 +23,17 @@ var QuestionSchema = new mongoose.Schema({
   },
   answer: {
       type: String,
-      required: true,
+      required: false,
   },
   units: {
       type: String,
-      required: true,
+      required: false,
   },
   leadingQuestions: [
     {    
         question: {
             type: String,
-            required: true,
+            required: false,
         },
         option: [
             {

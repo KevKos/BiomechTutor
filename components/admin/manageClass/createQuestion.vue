@@ -24,7 +24,7 @@
           <v-btn icon dark>
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Create A Question</v-toolbar-title>
+          <v-toolbar-title>Create a {{classTitle}} Question</v-toolbar-title>
           <div class="flex-grow-1"></div>
         </v-toolbar>
 
@@ -48,19 +48,17 @@
                           <div class="quill-editor" 
                               :content="mainQuestion"
                               @change="onEditorChange($event)"
-                              @blur="onEditorBlur($event)"
-                              @focus="onEditorFocus($event)"
-                              @ready="onEditorReady($event)"
                               v-quill:myQuillEditor="editorOption">
                           </div>
                         </section>
                       </v-flex>
                     </v-layout>
+                </v-flex>
                     <br>
                     <v-divider></v-divider>
                     <br>
                     <!-- ANSWER -->
-                    <v-layout row wrap>
+                    <!-- <v-layout row wrap>
                         <v-card-text
                         xs12
                         class="headline font-weight-bold"
@@ -82,26 +80,24 @@
                           </v-text-field>
 
                         </v-card-text>
-                    </v-layout>
+                    </v-layout> -->
                     <br>
                     <!-- LEADING QUESTIONS -->
-                    <v-divider></v-divider>
+                    <!-- <v-divider></v-divider>
                     <br>
                     <v-layout row wrap>
                         <v-card-text
                         class="headline font-weight-bold"
                         >
                             Leading Questions: 
-                        </v-card-text>
+                        </v-card-text> -->
 
                       <!-- START OF LEADING QUESTION -->
-                        <v-layout class="px-4" row wrap>
+                        <!-- <v-layout class="px-4" row wrap>
                           <v-flex xs12>
-                            <!-- leading question number -->
                             <v-card-text>
                               Leading Question 1
                             </v-card-text>
-                            <!-- leading question input -->
                             <v-card-text class="pb-0">
                             <v-text-field
                             outlined 
@@ -109,17 +105,16 @@
                             ></v-text-field>
                             </v-card-text>
                           </v-flex>
-                          <v-card-text class="pt-0">
-                            <v-layout row wrap>
+                          <v-card-text class="pt-0"> -->
+                            <!-- <v-layout row wrap> -->
                               <!-- individual leading question options -->
-                              <v-flex class="pa-1" xs6>
+                              <!-- <v-flex class="pa-1" xs6>
                                 <v-card-text class="px-0 py-1">
                                   <span class="mb-1 subtitle-2">Option A</span>
                                 </v-card-text>
                                 <v-card class="pa-3" outlined>
                                     <span class="title">A</span>
                                     <br>
-                                    <!-- leading question input -->
                                     <section class="container">
                                       <div class="quill-editor" 
                                           :content="leadingQuestion"
@@ -138,92 +133,18 @@
                                     </v-card-text>
                                 </v-card>
                               </v-flex>
-                               <v-flex class="pa-1" xs6>
-                                <v-card-text class="px-0 py-1">
-                                  <span class="mb-1 subtitle-2">Option B</span>
-                                </v-card-text>
-                                <v-card class="pa-3" outlined>
-                                    <span class="title">B</span>
-                                    <br>
-                                    <!-- leading question input -->
-                                    <section class="container">
-                                      <div class="quill-editor" 
-                                          :content="leadingQuestion2"
-                                          @change="onEditorChange($event)"
-                                          @blur="onEditorBlur($event)"
-                                          @focus="onEditorFocus($event)"
-                                          @ready="onEditorReady($event)"
-                                          v-quill:myQuillEditor3="editorOption">
-                                      </div>
-                                    </section>
-                                    <v-card-text>
-                                      <v-switch 
-                                      color="blue darken-3"
-                                      v-model="switch1" 
-                                      label="Correct"></v-switch>
-                                    </v-card-text>
-                                </v-card>
-                              </v-flex>
-                               <v-flex class="pa-1" xs6>
-                                <v-card-text class="px-0 py-1">
-                                  <span class="mb-1 subtitle-2">Option C</span>
-                                </v-card-text>
-                                <v-card class="pa-3" outlined>
-                                    <span class="title">C</span>
-                                    <br>
-                                    <!-- leading question input -->
-                                    <section class="container">
-                                      <div class="quill-editor" 
-                                          :content="leadingQuestion3"
-                                          @change="onEditorChange($event)"
-                                          @blur="onEditorBlur($event)"
-                                          @focus="onEditorFocus($event)"
-                                          @ready="onEditorReady($event)"
-                                          v-quill:myQuillEditor4="editorOption">
-                                      </div>
-                                    </section>
-                                    <v-card-text>
-                                      <v-switch 
-                                      color="blue darken-3"
-                                      v-model="switch1" 
-                                      label="Correct"></v-switch>
-                                    </v-card-text>
-                                </v-card>
-                              </v-flex>
-                               <v-flex class="pa-1" xs6>
-                                <v-card-text class="px-0 py-1">
-                                  <span class="mb-1 subtitle-2">Option D</span>
-                                </v-card-text>
-                                <v-card class="pa-3" outlined>
-                                    <span class="title">D</span>
-                                    <br>
-                                    <!-- leading question input -->
-                                    <section class="container">
-                                      <div class="quill-editor" 
-                                          :content="leadingQuestion4"
-                                          @change="onEditorChange($event)"
-                                          @blur="onEditorBlur($event)"
-                                          @focus="onEditorFocus($event)"
-                                          @ready="onEditorReady($event)"
-                                          v-quill:myQuillEditor5="editorOption">
-                                      </div>
-                                    </section>
-                                    <v-card-text>
-                                      <v-switch 
-                                      color="blue darken-3"
-                                      v-model="switch1" 
-                                      label="Correct"></v-switch>
-                                    </v-card-text>
-                                </v-card>
-                              </v-flex>
-                            </v-layout>
-                          </v-card-text>        
-                        </v-layout>
+                              -->
+                              
+                            <!-- </v-layout> -->
+                          <!-- </v-card-text>        
+                        </v-layout> -->
                       <!-- END OF LEADING QUESTION -->
                     </v-layout>
-                </v-flex>
-                <v-flex xs3></v-flex>
-            </v-layout>
+                    <v-btn
+                      v-on:click="createQuestion()"
+                    >
+                      submit question
+                    </v-btn>
         </v-container>
       </v-card>
     </v-dialog>
@@ -260,23 +181,37 @@ export default {
     mounted() {
       window.katex = katex;
     },
+      computed: {
+        admin(){
+            return this.$store.getters['auth/getAdmin'];
+        },
+    },
     methods: {
-      onEditorBlur(editor) {
-        console.log('editor blur!', editor)
-      },
-      onEditorFocus(editor) {
-        console.log('editor focus!', editor)
-      },
-      onEditorReady(editor) {
-        console.log('editor ready!', editor)
-      },
-      onEditorChange({ editor, html, text }) {
-        console.log('editor change!', editor, html, text)
-        this.content = html
-      }
+        // updating the change in the editor
+        onEditorChange({ editor, html, text }) {
+          this.mainQuestion = html
+        },
+        createQuestion () {
+          this.$axios.post('/admin/create/question', {
+              question: this.mainQuestion,
+              class: this.classId,
+              unit: this.unitId,
+              admin: this.adminId,
+          })
+          this.refreshUser(); //update classes
+          this.createClass = false
+        },
+          // refresh user to get question after it is made
+           refreshUser(){
+            this.$store.dispatch('auth/login', {email: this.admin.email, password: 'kevin1'}).then((res)    =>  {
+            })
+        },
     },
     props: {
       unitId: String,
+      classId: String,
+      classTitle: String,
+      adminId: String,
     }
   }
 </script>

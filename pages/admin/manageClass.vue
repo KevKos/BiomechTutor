@@ -41,7 +41,7 @@
                             </v-card-text>
                                 <!-- list of units -->
                                 <div
-                                v-for="units in units"
+                                v-for="(units, index) in filterUnits(classes._id)"
                                 :key="units._id"
                                 >
                                     <div
@@ -57,15 +57,39 @@
                                                         <v-flex xs12>
                                                             <span 
                                                             style="text-transform: capitalize"
-                                                            class="title">{{units.title}}
+                                                            class="title">{{index+1}}. {{units.title}}
                                                             </span>
                                                         </v-flex>
                                                         <v-flex xs12>
                                                             <CreateQuestion
                                                             :unitId="units._id"
+                                                            :classId="classes._id"
+                                                            :classTitle="classes.title"
+                                                            :adminId="admin._id"
                                                             ></CreateQuestion>
                                                         </v-flex>
+                                                        <v-flex xs12>
+                                                            <div
+                                                            v-for="(question, index) in filterQuestions(units._id)"
+                                                            :key="question._id"
+                                                            >
+                                                               
+                                                                    
+                                                                    
+                                                                    <v-btn
+                                                                    icon 
+                                                                    outlined
+                                                                    >
+                                                                        {{index + 1}}
+                                                                    </v-btn>
 
+                                                                    <!-- loading question -->
+                                                                    <!-- <span
+                                                                    v-html="question.text"
+                                                                    >
+                                                                    </span> -->
+                                                            </div>
+                                                        </v-flex>
                                                     </v-layout>
                                                 </v-card>
                                             </v-flex>
@@ -98,7 +122,7 @@ export default {
         return {
             classes: [],
             units: [],
-            title: 'this',
+            questions: [],
         }
     },
     components: {
@@ -125,12 +149,19 @@ export default {
                 // console.log(res.data.units)
                 this.classes = res.data.classes;
                 this.units = res.data.units;
+                this.questions = res.data.questions;
             })
         },
         containsClassId(classId) {
             console.log()
             var classUnits = this.units.filter(unit => unit.classAssignment = classId)
             console.log(classUnits + 'hello')
+        },
+        filterUnits(classId) {
+            return this.units.filter(unit => unit.classAssignment == classId)
+        },
+        filterQuestions(unitId) {
+            return this.questions.filter(question => question.unitAssignment == unitId)
         }
     },
     mounted() {

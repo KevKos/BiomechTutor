@@ -46,21 +46,21 @@ import { Error } from "mongoose";
   export const actions = {
     //   login user
     //    - does not need catch block as the error is caught on the other page
-    async login ({ commit }, { email, password }) {
+    async login ({ commit }, { username, password }) {
       //need to return promise for async
       return this.$axios.post('auth/login',{
-        email: email,
+        username: username,
         password: password
       })
       .then((res) => {
           if(res.data.error){
             throw new Error(res.data.msg);
           }else{
-            // console.log(res.data)
-            return res.data
+            return res.data;
           }
       })
       .then((authUser) => {
+        console.log(authUser)
         commit('SET_ADMIN', authUser);
         return authUser.confirmed;
       });

@@ -47,9 +47,12 @@ var db = mongoose.connection;
 const auth = require('./routes/auth');
 const admin = require('./routes/admin');
 const classes = require('./routes/classes');
+const remove = require('./routes/remove');
 app.use('/auth', auth);
 app.use('/admin', admin);
 app.use('/classes', classes);
+app.use('/remove', remove);
+
 
 
 app.use((err,req,res,next)  =>  {

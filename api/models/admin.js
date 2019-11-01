@@ -17,36 +17,22 @@ var AdminSchema = new mongoose.Schema ({
 })
 
 // authenticate login against database
-AdminSchema.statics.authenticate = function (email, password, callback) { //pass in email, password and callback fucntion
-    Admin.findOne({ email: email })  //find an that has matching email to one entered in login form
+AdminSchema.statics.authenticate = function (username, password, callback) { //pass in email, password and callback fucntion
+    Admin.findOne({ username: username })  //find an that has matching email to one entered in login form
       .exec(function (err, admin) {
         if (err || !admin) {
           callback(err)  //if error (no admin email that matches), return
         }else{
-        //   use bcrypt to compare entered password to the database password
-          bcrypt.compare(password, admin.password, function (err, result) {
-            if (result === true) {
-              callback(null, admin);
-            } else {
-              callback('password no match');
-            }
-          });
-        }      
+              if (password == admin.password) {
+                callback(null, admin)
+              } else {
+                callback(err)
+              }
+            }      
       });
   }
   
-  
-  //hashing a password before saving it to the database
-  AdminSchema.pre('save', function (next) {
-    var admin = this;
-    bcrypt.hash(admin.password, 10, function (err, hash) {
-      if (err) {
-        return next(err);
-      }
-      admin.password = hash;
-      next();
-    })
-  });
+
 
 var Admin = mongoose.model('Admin', AdminSchema);
 module.exports = Admin;

@@ -38,9 +38,9 @@ export default {
     data () {
         return {
             navigation: [
-                {title: 'Dashboard', icon: 'dashboard', nav: '/admin/dashboard'},
+                // {title: 'Dashboard', icon: 'dashboard', nav: '/admin/dashboard'},
                 {title: 'Manage Classes', icon: 'library_books', nav: '/admin/manageClass'},
-                {title: 'Settings', icon: 'settings', nav: '/admin/settings'},
+                // {title: 'Settings', icon: 'settings', nav: '/admin/settings'},
                 {title: 'Support', icon: 'contact_support', nav: '/admin/support'}
             ]
         }

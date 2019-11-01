@@ -1,53 +1,30 @@
 <template>
-  <v-layout
-    column
-    justify-center
-    align-center
-  >
-    <v-flex
-      style="width: 1000px;"
-      class="text-xs-left "
-    >
-      <span
-      class="display-1"
-      >
-        Practice Questions
-      </span>
-      <v-card>
-        {{admin}}
-      </v-card>
+  <v-content>
+    <v-layout>
+      <v-flex>
 
-      <v-card
-      v-for="unit in units"
-      :key="unit.title"
-      class="my-5"
-      >
-        <v-card-title>
-          {{unit.title}}
-        </v-card-title>
-
-        <v-card-text>
-          {{unit.description}}
-        </v-card-text>
-        <v-card-actions>
-          <v-btn
-          text
-          large
-          class="blue darken-3"
-          dark
-          style="letter-spacing: 0px; text-transform: none;"
-          to="/sample-unit-page"
+      </v-flex>
+      <v-flex>
+        <v-card
+        flat
+        >
+          <v-card-title
+          class="display-1"
           >
-          <v-icon
-          left> 
-          star</v-icon>
-            Questions
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+            McMaster Kinesology Biomechanics
+          </v-card-title>
+          <v-card-text
+          class="subtitle-1"
+          >
+            Click "Practice Questions" in the top left and choose a class to get started.
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex>
 
-    </v-flex>
-  </v-layout>
+      </v-flex>
+    </v-layout>
+  </v-content>
 </template>
 
 <script>

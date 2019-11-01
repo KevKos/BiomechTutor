@@ -81,7 +81,7 @@ export default {
             this.createUnit = false
         },
            refreshUser(){
-            this.$store.dispatch('auth/login', {email: this.admin.email, password: 'kevin1'}).then((res)    =>  {
+            this.$store.dispatch('auth/login', {username: this.admin.username, password: this.admin.password}).then((res)    =>  {
             })
         },
     },

@@ -9,7 +9,7 @@
                 <v-card-title
                 class="title pb-4"
                 >
-                    Create Admin Account
+                    Create An Admin Account
                 </v-card-title>
                 <v-card-text
                 >
@@ -35,6 +35,13 @@
                     :type="showPass ? 'text' : 'password'"
                     :append-icon="showPass ? 'visibility' : 'visibility_off'"
                     @click:append="showPass = !showPass"
+                    >
+                    </v-text-field>
+                    <v-text-field
+                    v-model="key"
+                    outlined
+                    color="blue darken-4"
+                    placeholder="Key"
                     >
                     </v-text-field>
                     <v-layout>
@@ -80,6 +87,7 @@ export default {
             username: '',
             email: '',
             password: '',
+            key: ''
         }
     },
     validations: {
@@ -118,6 +126,7 @@ export default {
                 username: this.username,
                 email: this.email.toLowerCase(),
                 password: this.password,
+                key: this.key
             })
             .then((res) => {
                 if(typeof res.data.error === 'string'){
@@ -132,11 +141,11 @@ export default {
                     this.alertTitle = 'Error'
                 }else{
                     //clear fields
-                    this.name = '';
+                    this.username = '';
                     this.email = '';
                     this.password = '';
+                    this.$router.push('/adminLogin')
                     // alert('Please check your email to confirm your account!');
-                    setTimeout(this.$router.push('/'), 2500); //delay redirect for 2.5 second to give user time to read
                 }              
             }).catch((e)  =>  {
                 console.log(e);

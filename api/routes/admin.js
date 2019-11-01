@@ -9,9 +9,6 @@ const Class = require('../models/class');
 const Unit = require('../models/units');
 const Question = require('../models/questions');
 
-
-
-
 /*
   CREATE CLASS
 */
@@ -45,9 +42,12 @@ admin.post('/create/unit', (req, res)  => {
 admin.post('/create/question', (req, res)  => {
   var questionData = {
     unitAssignment: req.body.unit,
+    solution: req.body.solution,
     classAssignment: req.body.class,
     adminCreator: req.body.admin,
-    text: req.body.question
+    text: req.body.question,
+    answer: req.body.answerNumber,
+    units: req.body.answerUnits
   }
   Question.create(questionData, function(err, question){
       res.send(true); //pass true to front end to redirect
@@ -68,21 +68,38 @@ admin.get('/getClasses', (req,res)  =>  {
  
 })
 
+/*
+    GET CLASSES FOR HEADER
+*/
+admin.get('/getClassesHeader', (req,res)  =>  {
+  Class.find(function(err, classes){
+    res.send(classes)
+  })
+ 
+})
 
 /*
-    GET UNITS FOR CLASS
+    GET CLASS INFORMATION
 */
-admin.get('/getUnits', (req,res) =>  {
-  console.log('success 1')
-  Unit.find({classAssignment: req.query.classId}, function(err, units) {
-      if(err || !units){
-          console.log(err);
-          res.json({error:true});
-      }else{
-          res.send({units});
-      }
+admin.get('/classes/getClassInformation', (req,res)  =>  {
+  Class.findById(req.query.id, function(err, classes){
+    Unit.find({classAssignment: req.query.id}, function(err, units){
+        res.send({classes: classes, units: units})
+    })
   })
 })
+
+/*
+    GET UNIT FOR QUESTIONS
+*/
+admin.get('/units/getUnitInformation', (req,res)  =>  {
+  Unit.findById(req.query.id, function(err, units){
+    Question.find({unitAssignment: req.query.id}, function(err, questions){
+        res.send({unit: units, questions: questions})
+    })
+  })
+})
+
 
 module.exports = admin;
 

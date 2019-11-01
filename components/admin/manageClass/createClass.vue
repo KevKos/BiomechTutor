@@ -80,7 +80,8 @@ export default {
             this.createClass = false
         },
            refreshUser(){
-            this.$store.dispatch('auth/login', {email: this.admin.email, password: 'kevin1'}).then((res)    =>  {
+               console.log(this.admin.username)
+            this.$store.dispatch('auth/login', {username: this.admin.username, password: this.admin.password}).then((res)    =>  {
             })
         },
     }

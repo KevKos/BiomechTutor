@@ -1,48 +1,56 @@
 <template>
     <v-dialog
+    v-model="createQuestionDialog"
     fullscreen hide-overlay transition="dialog-bottom-transition"
     >
       <!-- button -->
       <template v-slot:activator="{ on }">
          <v-btn
-        v-on="on"
         small 
         outlined
         dark
         style="text-transform: none; letter-spacing: 0px;"
         color="blue darken-2"
+        @click="createQuestionDialog = true"
         >
             <v-icon left> add </v-icon>
             Create a Question
-            {{unitId}}
         </v-btn>
       </template>
       <!-- full screen dialog card -->
-      <v-card>
+      <v-card
+      >
         <!-- full screen toolbar   -->
       <v-toolbar dark color="primary">
-          <v-btn icon dark>
+          <v-btn
+          @click="createQuestionDialog = false"
+           icon dark >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Create a {{classTitle}} Question</v-toolbar-title>
+          <v-toolbar-title style="text-transform: capitalize;">Create a {{unitTitle}} Question</v-toolbar-title>
           <div class="flex-grow-1"></div>
         </v-toolbar>
 
         <!-- create question content page -->
         <v-container>
             <v-layout class="pa-4">
-                <v-flex xs3></v-flex>
-                <!-- MAIN QUESTION -->
-                <v-flex xs6>
-                    <!-- question -->
+                <v-flex xs4></v-flex>
+                <!-- MAIN COLUMN-->
+                <v-flex xs4>
                      <v-layout row wrap>
-                        <v-flex 
+                       <!-- Main Question -->
+                        <v-flex
+                        class="my-5" 
                         xs12>
                         <v-card-text
-                        class="headline font-weight-bold"
+                        class="headline font-weight-bold px-0"
                         >
                             Question: 
                         </v-card-text>
+                        <v-card
+                        flat 
+                        style="border-radius: 5px; border: 1px solid #bfbfbf"
+                        >
                         <!-- quill editor -->
                          <section class="container">
                           <div class="quill-editor" 
@@ -51,100 +59,118 @@
                               v-quill:myQuillEditor="editorOption">
                           </div>
                         </section>
+                        </v-card>
                       </v-flex>
-                    </v-layout>
-                </v-flex>
-                    <br>
-                    <v-divider></v-divider>
-                    <br>
-                    <!-- ANSWER -->
-                    <!-- <v-layout row wrap>
+
+                        <!-- Answer -->
+                      <v-flex
+                        class="" 
+                        xs12>
                         <v-card-text
-                        xs12
-                        class="headline font-weight-bold"
+                        class="headline font-weight-bold px-0"
                         >
                             Answer: 
                         </v-card-text>
-                        <v-card-text
-                        xs12
+                        <v-card
+                        flat
                         >
                           <v-text-field
+                          placeholder="e.g. 42"
                           outlined
-                          placeholder="Number e.g. -9.81"
+                          v-model="answerNumber"
                           >
                           </v-text-field>
-                          <v-text-field
+                          <v-select
+                          v-model="answerUnits"
+                          placeholder="Units"
                           outlined
-                          placeholder="Units e.g. m/s^2"
+                          :menu-props="{offsetY: true }"
+                          :items="unitList"
                           >
-                          </v-text-field>
+                          </v-select>
+                        
+                        </v-card>
+                      </v-flex>
 
+                      <!-- Solution -->
+                      <v-flex
+                        class="mb-5" 
+                        xs12>
+                        <v-card-text
+                        class="headline font-weight-bold px-0"
+                        >
+                            Solution: 
                         </v-card-text>
-                    </v-layout> -->
-                    <br>
-                    <!-- LEADING QUESTIONS -->
-                    <!-- <v-divider></v-divider>
-                    <br>
-                    <v-layout row wrap>
-                        <v-card-text
-                        class="headline font-weight-bold"
+                        <v-card
+                        flat 
+                        style="border-radius: 5px; border: 1px solid #bfbfbf"
                         >
-                            Leading Questions: 
-                        </v-card-text> -->
+                          <section class="container">
+                          <div class="quill-editor" 
+                              :content="solution"
+                              @change="onEditorChangeSolution($event)"
+                              v-quill:myQuillEditor2="editorOption">
+                          </div>
+                        </section>
+                        </v-card>
+                      </v-flex>
 
-                      <!-- START OF LEADING QUESTION -->
-                        <!-- <v-layout class="px-4" row wrap>
-                          <v-flex xs12>
-                            <v-card-text>
-                              Leading Question 1
-                            </v-card-text>
-                            <v-card-text class="pb-0">
-                            <v-text-field
-                            outlined 
-                            placeholder="This is the first leading question"
-                            ></v-text-field>
-                            </v-card-text>
-                          </v-flex>
-                          <v-card-text class="pt-0"> -->
-                            <!-- <v-layout row wrap> -->
-                              <!-- individual leading question options -->
-                              <!-- <v-flex class="pa-1" xs6>
-                                <v-card-text class="px-0 py-1">
-                                  <span class="mb-1 subtitle-2">Option A</span>
-                                </v-card-text>
-                                <v-card class="pa-3" outlined>
-                                    <span class="title">A</span>
-                                    <br>
-                                    <section class="container">
-                                      <div class="quill-editor" 
-                                          :content="leadingQuestion"
-                                          @change="onEditorChange($event)"
-                                          @blur="onEditorBlur($event)"
-                                          @focus="onEditorFocus($event)"
-                                          @ready="onEditorReady($event)"
-                                          v-quill:myQuillEditor2="editorOption">
-                                      </div>
-                                    </section>
-                                    <v-card-text>
-                                      <v-switch 
-                                      color="blue darken-3"
-                                      v-model="switch1" 
-                                      label="Correct"></v-switch>
-                                    </v-card-text>
-                                </v-card>
-                              </v-flex>
-                              -->
-                              
-                            <!-- </v-layout> -->
-                          <!-- </v-card-text>        
-                        </v-layout> -->
-                      <!-- END OF LEADING QUESTION -->
+                      <!-- Steps -->
+                      <!-- <v-flex
+                        class="mb-5" 
+                        xs12>
+                        <v-card-text
+                        class="headline font-weight-bold px-0"
+                        >
+                            Steps: 
+                        </v-card-text>
+                       
+                        <v-card-text
+                        v-for="(steps, index) in steps"
+                        :key="index"
+                        >
+                        {{steps.title}}
+                          <v-card
+                            flat 
+                            style="border-radius: 5px; border: 1px solid #bfbfbf"
+                            >
+                              <section class="container">
+                                <div class="quill-editor" 
+                                    :content="steps.content"
+                                    v-quill:{{index}}="editorOption">
+                                </div>
+                            </section>
+                          </v-card>
+                        </v-card-text>
+
+                         <v-card-text>
+                          <v-btn
+                          @click="addStep()"
+                          >
+                            Add a step
+                          </v-btn>
+                        </v-card-text>
+
+
+
+                       
+                      </v-flex> -->
+
+                      <!-- Submit Question -->
+                      <v-flex class="py-5">
+                        <v-btn
+                          v-on:click="createQuestion()"
+                          style="text-transform: none; letter-spacing: 0px;"
+                          flat
+                          dark
+                          color="blue darken-2"
+                        >
+                          Submit Question
+                        </v-btn>
+                      </v-flex>
                     </v-layout>
-                    <v-btn
-                      v-on:click="createQuestion()"
-                    >
-                      submit question
-                    </v-btn>
+                </v-flex>
+            </v-layout>
         </v-container>
       </v-card>
     </v-dialog>
@@ -159,20 +185,32 @@ export default {
     data () {
       return {
         // content of quill boxes
-        mainQuestion: '<p> Why is the sky blue?</p>',
-        leadingQuestion: '<p>Leading question example</p>',
-        leadingQuestion2: '<p>Leading question example</p>',
-        leadingQuestion3: '<p>Leading question example</p>',
-        leadingQuestion4: '<p>Leading question example</p>',
+        mainQuestion: '<p>What is the meaning of life?</p>',
+        // leadingQuestion: '<p>Leading question example</p>',
+        // leadingQuestion2: '<p>Leading question example</p>',
+        // leadingQuestion3: '<p>Leading question example</p>',
+        // leadingQuestion4: '<p>Leading question example</p>',
+        solution: '<p> Input the solution to the question here. You can input formulas via the "fx" button in the toolbar. <p>',
+
+        // for questions
+        unitList: ['m/s', 'm/s^2', 'seconds', 'meters'],
+
+        // steps
+        steps : [],
 
         // test switches
-        switch1: false,
+        createQuestionDialog: false,
+
+        // dialog model
+        // createQuestion: false,
+        answerNumber: '',
+        answerUnit: '',
 
         editorOption: {
           // some quill options
           modules: {
             toolbar: [
-              ['bold', 'italic', 'underline', 'strike', 'script' , 'align', 'code', 'link','script', 'formula', 'image'],
+              ['bold', 'italic', 'underline', 'strike', { 'script': 'sub'}, { 'script': 'super' }, 'align', 'code', 'link','formula', 'image', ],
             ]
           },
         }
@@ -191,32 +229,47 @@ export default {
         onEditorChange({ editor, html, text }) {
           this.mainQuestion = html
         },
+        onEditorChangeSolution({ editor, html, text }) {
+          this.solution = html
+        },
         createQuestion () {
           this.$axios.post('/admin/create/question', {
               question: this.mainQuestion,
+              solution: this.solution,
+              answerNumber: this.answerNumber,
+              answerUnits: this.answerUnits,
               class: this.classId,
               unit: this.unitId,
               admin: this.adminId,
           })
           this.refreshUser(); //update classes
-          this.createClass = false
+          this.createQuestionDialog = false
         },
-          // refresh user to get question after it is made
-           refreshUser(){
-            this.$store.dispatch('auth/login', {email: this.admin.email, password: 'kevin1'}).then((res)    =>  {
-            })
+        // refresh user to get question after it is made
+          refreshUser(){
+          this.$store.dispatch('auth/login', {username: this.admin.username, password: this.admin.password}).then((res)    =>  {
+          })
         },
+        addStep () {
+          var index = this.steps.length;
+          this.steps.push(
+            {
+              title: 'Hello'+index,
+              content: '<p> New Step </p>'
+            }
+          )
+        }
     },
     props: {
       unitId: String,
       classId: String,
-      classTitle: String,
+      unitTitle: String,
       adminId: String,
     }
   }
 </script>
 
-<style lang="scss" scoped>
+<style >
   .container {
     width: 100%;
     margin: 0 auto;
@@ -224,7 +277,15 @@ export default {
   }
     .quill-editor {
     text-align:right;
-    min-height: 200px;
-    max-height: 600px;
+    min-height: 50px;
+  }
+  .ql-toolbar.ql-snow {
+    border: 0px solid #ccc;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    padding: 8px;
+}
+  .ql-container.ql-snow {
+    border: none;
   }
 </style>

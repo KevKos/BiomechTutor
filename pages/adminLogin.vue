@@ -14,12 +14,9 @@
                 <v-card-text
                 >
                     <v-text-field
-                    name="email"
-                    v-model="email"
-                    :error-messages="emailError"
-                    @input="$v.email.$touch()"
-                    @blur="$v.email.$touch()"
-                    label="E-mail"
+                    name="username"
+                    v-model="username"
+                    label="Username"
                     outlined
                     color="blue darken-4"
                     required
@@ -65,21 +62,12 @@ import { validationMixin } from 'vuelidate';
 export default {
     data () {
         return {
-            email: '',
+            username: '',
             password: '',
             showPass1: false,
         }
     },
     computed: {
-        emailError(){
-            const errors = [];
-            if(!this.$v.email.$error){
-                return errors;
-            }else{
-                errors.push('Please enter a valid email address.')
-                return errors;
-            }
-        },
         passwordError(){
             const errors = [];
             if(!this.$v.password.$error){
@@ -95,10 +83,6 @@ export default {
     },
     mixins: [validationMixin],
     validations: {
-        email:{
-            required,
-            email
-        },
         password:{
             required,
             minLength: minLength(6),
@@ -109,14 +93,9 @@ export default {
     },
      methods: {
         login: async function(event) {
-            this.$v.email.$touch();
-            this.$v.password.$touch()
-               if(this.$v.password.$invalid || this.$v.email.$invalid){
-                    alert('Form errors');
-               }else{
-                    this.$store.dispatch('auth/login', {email: this.email, password: this.password}).then((res)    =>  {
+                    this.$store.dispatch('auth/login', {username: this.username, password: this.password}).then((res)    =>  {
                         console.log(res);
-                        this.$router.push('/admin/dashboard'); //push to browse on successful login
+                        this.$router.push('/admin/manageClass'); //push to browse on successful login
                     }).catch((err)   =>  {
                         //the error object is appending Mongoose Error to it so this seems to be the easiest fix for now
                         let error = String(err);
@@ -144,7 +123,6 @@ export default {
                         
                     })     
                }
-        },
     },
 }
 </script>

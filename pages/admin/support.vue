@@ -4,16 +4,20 @@
         <Navigation></Navigation>
 
         <!-- page content -->
-        <v-content>
+        <v-container>
             <v-layout>
                 <v-flex xs12>
-                    <!-- title -->
-                    <span>
-                        Create Question
-                    </span>
+                    <v-card-title 
+                    class="display-1"
+                    >
+                        Support
+                    </v-card-title>
+                    <v-card-text>
+                        If you have any issues or bugs with the Mac Kin Biomechanics question platform, please email Kevin Kos at kosk@mcmaster.ca.
+                    </v-card-text>
                 </v-flex>
             </v-layout>
-        </v-content>
+        </v-container>
 
     </v-layout>
         

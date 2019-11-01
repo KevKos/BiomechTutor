@@ -5,10 +5,12 @@
             class="pa-5"
             xs2>
                 <v-layout
+                class="pr-5"
                     >
                     <!-- navigation drawer -->
                     
                     <v-card
+                    flat 
                     >
                     <v-card-title
                     class="title"
@@ -16,7 +18,7 @@
                     >
                         {{unit.title}}
                     </v-card-title>
-                    <v-divider></v-divider>
+                    <!-- <v-divider></v-divider> -->
                     <v-card-text>
                         <v-btn
                         v-for="(question, index) in questions"

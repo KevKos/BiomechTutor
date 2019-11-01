@@ -209,6 +209,7 @@ export default {
         editorOption: {
           // some quill options
           modules: {
+            imageResize: true,
             toolbar: [
               ['bold', 'italic', 'underline', 'strike', { 'script': 'sub'}, { 'script': 'super' }, 'align', 'code', 'link','formula', 'image', ],
             ]

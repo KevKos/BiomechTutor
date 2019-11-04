@@ -8,9 +8,7 @@
 
     <!-- nuxt content -->
     <v-content class="white">
-      <v-container class="white">
-        <nuxt class="white" />
-      </v-container>
+        <nuxt class="white pa-0" />
     </v-content>
 
     <!-- footer -->

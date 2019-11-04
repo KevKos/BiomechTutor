@@ -4,7 +4,7 @@
         <Navigation></Navigation>
 
         <!-- page content -->
-        <v-container>
+        <v-content class="mx-0 py-0 px-5">
             <v-layout class="px-2" row wrap>
                
                <!-- create class -->
@@ -172,7 +172,7 @@
                     </div>
                 </v-flex>               
             </v-layout>
-        </v-container>
+        </v-content>
         <DeleteConfirmation
         :title="deleteTitle" 
         :text="deleteText" 

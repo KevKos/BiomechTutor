@@ -97,8 +97,8 @@
                           >
                             <section class="container">
                               <div class="quill-editor" 
-                                  :content="questionText"
-                                  @change="onEditorChangeEditMainQuestion($event)"
+                                  :content="mainQuestion"
+                                  @change="onEditorChangeEdit($event)"
                                   v-quill:myQuillEditorEdit="editorOptionEdit">
                               </div>
                             </section>
@@ -130,16 +130,18 @@
                             >
                                 Answer: 
                             </v-card-text>
-                            <v-card-text>
+                            <v-card-text class="pa-0 ma-0">
                               <v-text-field
                               outlined
                               placeholder="Answer"
-                              :value="answerNumber"
+                              v-model.lazy="answerEdit"
                               >
                               </v-text-field>
                               <v-select
-                              :v-model="editingUnits"
+                              v-model="answerUnitsEdit"
                               outlined
+                              :items="unitList"
+                              :menu-props="{offsetY: true }"
                               ></v-select>
                             </v-card-text>
                       </v-flex>
@@ -181,6 +183,22 @@
                           </v-card>
                       </v-flex>
 
+                      <v-flex
+                      v-if="editingStatus"
+                      class="pt-5"
+                      >
+                        <v-btn
+                        color="green darken-2"
+                        dark
+                        style="text-transform: none; letter-spacing: 0px;"
+                        flat
+                        v-on:click="submitEditQuestion()"
+                        >
+                          <v-icon left>edit</v-icon>
+                          Submit Edits
+                        </v-btn>
+                      </v-flex>
+
                     </v-layout>
                 </v-flex>
             </v-layout>
@@ -211,12 +229,14 @@ export default {
         // editing status 
         editingStatus: false,
 
-        // editing content
-        editingUnits: this.answerUnits,
+        // for editing units
+        unitList: ['m/s', 'm/s^2', 'seconds', 'meters'],
 
-        // content of quill boxes
+        // content of editing
        mainQuestion: this.questionText,
        solutionContent: this.solution,
+       answerEdit: this.answerNumber,
+       answerUnitsEdit: this.answerUnits,
 
         // dialog model
         editQuestion: false,
@@ -241,15 +261,22 @@ export default {
     },
     mixins: [Delete],
     methods: {
-        editQuestion () {
-          this.$axios.post('/admin/create/question', {
+        submitEditQuestion () {
+          // console.log(this.mainQuestion)
+          console.log(this.solutionContent)
+          // console.log(this.answerNumber)
+          // console.log(this.answerUnits)
+          this.$axios.post('/admin/edit/question', {
               question: this.mainQuestion,
-              class: this.classId,
-              unit: this.unitId,
-              admin: this.adminId,
+              solution: this.solutionContent,
+              answerNumber: this.answerEdit,
+              answerUnits: this.answerUnitsEdit,
+              questionId: this.questionId,
           })
-          this.refreshUser(); //update classes
           this.editQuestion = false
+          this.editingStatus = false
+          this.refreshUser(); //update question
+          
         },
           // refresh user to get question after it is made
            refreshUser(){
@@ -263,7 +290,15 @@ export default {
             this.deleteType = 'question';
             this.deleteId = this.questionId;
             this.deleteStatus = true;
-        }
+        },
+        // updating the question fields when editing so they submit with changes
+               // updating the change in the editor
+        onEditorChangeEdit({ editor, html, text }) {
+          this.mainQuestion = html
+        },
+        onEditorChangeEditSolution({ editor, html, text }) {
+          this.solutionContent = html
+        },
     },
     props: {
     //   unitId: String,
@@ -272,7 +307,7 @@ export default {
     //   adminId: String,
         questionNumber: Number,
         questionText: String,
-        answerNumber: Number,
+        answerNumber: String,
         answerUnits: String,
         solution: String,
         questionId: String

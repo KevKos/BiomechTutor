@@ -55,6 +55,22 @@ admin.post('/create/question', (req, res)  => {
 });
 
 /*
+  CREATE QUESTION
+*/
+admin.post('/edit/question', (req, res)  => {
+  var questionData = {
+   text: req.body.question,
+   solution: req.body.solution,
+   answer: req.body.answerNumber,
+   units: req.body.answerUnits
+  }
+  Question.findOneAndUpdate({_id: req.body.questionId}, questionData, {upsert:true}, function(err, doc){
+      if (err) return res.send(500, { error: err });
+      console.log('successfully saved')
+  });
+});
+
+/*
     GET CLASSES FOR ADMIN
 */
 admin.get('/getClasses', (req,res)  =>  {

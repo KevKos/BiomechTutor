@@ -32,7 +32,7 @@
         </v-toolbar>
 
         <!-- create question content page -->
-        <v-container>
+        <v-content class="pa-0 ma-0">
             <v-layout class="pa-4">
                 <v-flex xs4></v-flex>
                 <!-- MAIN COLUMN-->
@@ -48,7 +48,6 @@
                             Question: 
                         </v-card-text>
                         <v-card
-                        flat 
                         style="border-radius: 5px; border: 1px solid #bfbfbf"
                         >
                         <!-- quill editor -->
@@ -161,7 +160,6 @@
                         <v-btn
                           v-on:click="createQuestion()"
                           style="text-transform: none; letter-spacing: 0px;"
-                          flat
                           dark
                           color="blue darken-2"
                         >
@@ -171,7 +169,7 @@
                     </v-layout>
                 </v-flex>
             </v-layout>
-        </v-container>
+        </v-content>
       </v-card>
     </v-dialog>
 
@@ -186,10 +184,6 @@ export default {
       return {
         // content of quill boxes
         mainQuestion: '<p>What is the meaning of life?</p>',
-        // leadingQuestion: '<p>Leading question example</p>',
-        // leadingQuestion2: '<p>Leading question example</p>',
-        // leadingQuestion3: '<p>Leading question example</p>',
-        // leadingQuestion4: '<p>Leading question example</p>',
         solution: '<p> Input the solution to the question here. You can input formulas via the "fx" button in the toolbar. <p>',
 
         // for questions
@@ -204,7 +198,7 @@ export default {
         // dialog model
         // createQuestion: false,
         answerNumber: '',
-        answerUnit: '',
+        answerUnits: '',
 
         editorOption: {
           // some quill options

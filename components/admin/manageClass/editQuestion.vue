@@ -230,7 +230,7 @@ export default {
         editingStatus: false,
 
         // for editing units
-        unitList: ['m/s', 'm/s^2', 'seconds', 'meters'],
+        unitList: ['meters', 'kilograms', 'seconds', 'm/s', 'm/s^2', 'rad', 'rad/s', 'rad/s^2', 'N', 'N*m', 'N*s','J'],
 
         // content of editing
        mainQuestion: this.questionText,
@@ -263,7 +263,6 @@ export default {
     methods: {
         submitEditQuestion () {
           // console.log(this.mainQuestion)
-          console.log(this.solutionContent)
           // console.log(this.answerNumber)
           // console.log(this.answerUnits)
           this.$axios.post('/admin/edit/question', {

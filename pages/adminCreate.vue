@@ -65,6 +65,13 @@
                             <span>Account creation is limited to McMaster Kinesiology graduate students.</span>
                             </v-tooltip>
                     </v-layout>
+                    <v-layout>
+                        <v-card-text
+                        class="red--text subtitle-1 px-0"
+                        >
+                            {{warning}}
+                        </v-card-text>
+                    </v-layout>
                 </v-card-text>
             </v-card>
         <v-spacer></v-spacer>
@@ -87,7 +94,9 @@ export default {
             username: '',
             email: '',
             password: '',
-            key: ''
+            key: '',
+
+            warning: ''
         }
     },
     validations: {
@@ -122,34 +131,39 @@ export default {
     },
     methods: {
         createAdmin: function(){
-            this.$axios.post('auth/admin/create', {
-                username: this.username,
-                email: this.email.toLowerCase(),
-                password: this.password,
-                key: this.key
-            })
-            .then((res) => {
-                if(typeof res.data.error === 'string'){
-                    alert(res.data.error);
-                    this.alertDialog = true;
-                    this.alertText = res.data.error;
-                    this.alertTitle = 'Error'
-                }else if(res.data.error){
-                    // alert('Invalid Form Input.')
-                    this.alertDialog = true;
-                    this.alertText = 'Invalid form input, please check all inputs are filled out correctly.';
-                    this.alertTitle = 'Error'
-                }else{
-                    //clear fields
-                    this.username = '';
-                    this.email = '';
-                    this.password = '';
-                    this.$router.push('/adminLogin')
-                    // alert('Please check your email to confirm your account!');
-                }              
-            }).catch((e)  =>  {
-                console.log(e);
-            })
+
+            if (this.key == 'Biomechanics2019MacKin') {
+                this.$axios.post('auth/admin/create', {
+                    username: this.username,
+                    email: this.email.toLowerCase(),
+                    password: this.password,
+                    key: this.key
+                })
+                .then((res) => {
+                    if(typeof res.data.error === 'string'){
+                        alert(res.data.error);
+                        this.alertDialog = true;
+                        this.alertText = res.data.error;
+                        this.alertTitle = 'Error'
+                    }else if(res.data.error){
+                        // alert('Invalid Form Input.')
+                        this.alertDialog = true;
+                        this.alertText = 'Invalid form input, please check all inputs are filled out correctly.';
+                        this.alertTitle = 'Error'
+                    }else{
+                        //clear fields
+                        this.username = '';
+                        this.email = '';
+                        this.password = '';
+                        this.$router.push('/adminLogin')
+                        // alert('Please check your email to confirm your account!');
+                    }              
+                }).catch((e)  =>  {
+                    console.log(e);
+                })
+            } else {
+                this.warning = 'Please contact the administrator for a key.'
+            }
         }
     },
 }

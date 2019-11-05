@@ -41,9 +41,12 @@ auth.post('/admin/create', function (req, res) {
 
 // log in
 auth.post('/login', function(req,res,next) {
-    Admin.findOne({username: req.body.username, password: req.body.password}, function (err, admin) { 
-      sendAuthToken(admin, 'admin', req, res);
-      // res.send(admin)
+    Admin.findOne({username: req.body.username, password: req.body.password}, function (err, admin) {
+      if (err || !admin) {
+        res.json({error: true, msg: 'noAdmin'})
+      } else {
+        sendAuthToken(admin, 'admin', req, res);
+      }
     });
 });
 

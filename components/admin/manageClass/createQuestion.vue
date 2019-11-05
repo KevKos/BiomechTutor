@@ -187,7 +187,8 @@ export default {
         solution: '<p> Input the solution to the question here. You can input formulas via the "fx" button in the toolbar. <p>',
 
         // for questions
-        unitList: ['m/s', 'm/s^2', 'seconds', 'meters'],
+        unitList: ['meters', 'kilograms', 'seconds', 'm/s', 'm/s^2', 'rad', 'rad/s', 'rad/s^2', 'N', 'N*m', 'N*s','J'],
+
 
         // steps
         steps : [],

@@ -17,6 +17,7 @@
             <v-select
             outlined
             :menu-props="{offsetY: true }"
+            dense
             :items="unitList"
             v-model="units"
             placeholder="Units"
@@ -85,7 +86,8 @@ export default {
             answerText: '',
             
             // for seleciton
-            unitList: ['m/s', 'm/s^2', 'seconds', 'meters'],
+            unitList: ['meters', 'kilograms', 'seconds', 'm/s', 'm/s^2', 'rad', 'rad/s', 'rad/s^2', 'N', 'N*m', 'N*s','J'],
+
 
         }
     },

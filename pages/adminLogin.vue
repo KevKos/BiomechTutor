@@ -94,31 +94,14 @@ export default {
      methods: {
         login: async function(event) {
                     this.$store.dispatch('auth/login', {username: this.username, password: this.password}).then((res)    =>  {
-                        console.log(res);
                         this.$router.push('/admin/manageClass'); //push to browse on successful login
                     }).catch((err)   =>  {
                         //the error object is appending Mongoose Error to it so this seems to be the easiest fix for now
                         let error = String(err);
-                        // console.log(error);
-
-                        // c2492992@urhen.com
-                        if(error.includes('confirmation')){
-                            this.alertDialog = true;
-                            this.alertTitle = 'So Close!'
-                            this.alertText = 'Please confirm your account to sign in. If you would like another email, you can click on the "confirm email" button to re-send the email.'
-                        }else if (error.includes('password')){
-                            this.alertDialog = true;
-                            this.alertTitle = 'Wrong Password!'
-                            this.alertText = 'Please try again, or reset your password to avoid future errors.'
-                        }else if (error.includes('account')){
-                            this.alertDialog = true;
-                            this.alertTitle = 'Wrong Email/Password!'
-                            this.alertText = 'Please try again, or reset your password to avoid future errors.'
+                        if(error.includes('noAdmin')){
+                           alert('There are no admin accounts with those credentials') 
                         }else{
-                            alert('An unexpected error has occured');
-                            this.alertDialog = true;
-                            this.alertTitle = 'Error';
-                            this.alertText = 'An unexpected error has occured, please try again shortly'
+                          alert('An unexpected error has occured, please contact the system administrator.')
                         }
                         
                     })     

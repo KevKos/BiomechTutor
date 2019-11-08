@@ -13,7 +13,8 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 //  database connection
-const mongoUri = 'mongodb://localhost/biomechanics';  //development
+// const mongoUri = 'mongodb://localhost/biomechanics';  //development
+const mongoUri = process.env.TEST_DB_CONNECTION;
 
 
 var mongoOptions =  {useNewUrlParser: true, useCreateIndex: true, useFindAndModify: true, autoReconnect: true, };

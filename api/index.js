@@ -14,7 +14,7 @@ const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 //  database connection
 // const mongoUri = 'mongodb://localhost/biomechanics';  //development
-const mongoUri = process.env.TEST_DB_CONNECTION;
+const mongoUri = 'mongodb+srv://Kevin:lrmfWLEg3fvDSMNe@biomechapp-4s0se.gcp.mongodb.net/test';
 
 
 var mongoOptions =  {useNewUrlParser: true, useCreateIndex: true, useFindAndModify: true, autoReconnect: true, };

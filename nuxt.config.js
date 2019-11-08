@@ -82,7 +82,7 @@ module.exports = {
   },
   // Axios module configuration
   axios: {
-    baseURL: 'http://localhost:5000/api/',
+    baseURL: 'http://localhost:8080/api/',
   },
   /*
   ** Build configuration
@@ -104,7 +104,7 @@ module.exports = {
     }
   },
   server: {
-    port: process.env.PORT || 5000,
+    port: process.env.PORT || 8080,
     host: '0.0.0.0',
   }
 }
